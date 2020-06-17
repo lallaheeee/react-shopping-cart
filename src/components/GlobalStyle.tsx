@@ -13,6 +13,7 @@ const GlobalStyles = createGlobalStyle`
   input, button, textarea {
     font-family: inherit;
     border: none;
+    background: none;
   }
   html, body, #root {
     height: 100%;
@@ -20,6 +21,7 @@ const GlobalStyles = createGlobalStyle`
   a, a:hover, a:link, a:visited {
     cursor: pointer;
     text-decoration: none;
+    color: black;
   }
 `;
 
