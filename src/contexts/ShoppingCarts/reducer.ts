@@ -3,14 +3,19 @@ import _ from "~/lib/_";
 
 export enum Action {
 	FETCH_COUPONS = "FETCH_PRODUCTS",
-	SET_PRODUCTS = "SET_PRODUCTS",
+	ADD_PRODUCT = "ADD_PRODUCT",
+	SELECT_PRODUCT = "SELECT_PRODUCT",
 	SET_PRODUCT_QUANTITY = "SET_PRODUCT_QUANTITY",
 	SET_COUPON = "SET_COUPON",
 }
 
 export type ShoppingCartAction =
 	| { type: Action.FETCH_COUPONS; coupons: Coupon[] }
-	| { type: Action.SET_PRODUCTS; product: Product }
+	| { type: Action.ADD_PRODUCT; product: Product }
+	| {
+			type: Action.SELECT_PRODUCT;
+			payload: { product: Product; isSelected: boolean };
+	  }
 	| {
 			type: Action.SET_PRODUCT_QUANTITY;
 			payload: { product: Product; quantity: number };
@@ -39,7 +44,7 @@ export const ShoppingCartReducer = (
 				coupons,
 			};
 		}
-		case Action.SET_PRODUCTS: {
+		case Action.ADD_PRODUCT: {
 			const { product } = action;
 			const products = _.includes(
 				product.id,
@@ -52,6 +57,16 @@ export const ShoppingCartReducer = (
 				...state,
 				products,
 			};
+		}
+		case Action.SELECT_PRODUCT: {
+			const { product: target, isSelected } = action.payload;
+			const products = _.map(product => {
+				if (product.id === target.id) product.isSelected = isSelected;
+
+				return product;
+			}, state.products);
+
+			return { ...state, products };
 		}
 		case Action.SET_PRODUCT_QUANTITY: {
 			const { product: target, quantity } = action.payload;

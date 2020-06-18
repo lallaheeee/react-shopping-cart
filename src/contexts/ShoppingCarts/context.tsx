@@ -24,7 +24,8 @@ const isProduct = (obj: any): obj is Product => {
 type ShoppingCartContextProps = {
 	state: ShoppingCartState;
 	dispatch: React.Dispatch<ShoppingCartAction>;
-	setProducts: (target: OnlineClass | Product) => void;
+	addProduct: (target: OnlineClass | Product) => void;
+	selectProduct: (id: string, isSelected: boolean) => void;
 	setProductQuantity: (id: string, quantity: number) => void;
 	setCoupon: (coupon: Coupon) => void;
 };
@@ -32,7 +33,8 @@ type ShoppingCartContextProps = {
 const ShoppingCartContext = createContext<ShoppingCartContextProps>({
 	state: initialState,
 	dispatch: () => initialState,
-	setProducts: () => {},
+	addProduct: () => {},
+	selectProduct: () => {},
 	setProductQuantity: () => {},
 	setCoupon: () => {},
 });
@@ -56,7 +58,7 @@ export function ShoppingCartProvider(props: React.PropsWithChildren<{}>) {
 		dispatch({ type: Action.FETCH_COUPONS, coupons });
 	}, [fetchedCoupons]);
 
-	const setProducts = useCallback((target: OnlineClass | Product) => {
+	const addProduct = useCallback((target: OnlineClass | Product) => {
 		let product;
 
 		if (!isProduct(target)) {
@@ -67,8 +69,23 @@ export function ShoppingCartProvider(props: React.PropsWithChildren<{}>) {
 			};
 		} else product = target;
 
-		dispatch({ type: Action.SET_PRODUCTS, product });
+		dispatch({ type: Action.ADD_PRODUCT, product });
 	}, []);
+
+	const selectProduct = useCallback(
+		(id: string, isSelected: boolean) => {
+			const product = _.find((product: Product) => product.id === id)(
+				state.products,
+			);
+			if (!product) return;
+
+			dispatch({
+				type: Action.SELECT_PRODUCT,
+				payload: { product, isSelected },
+			});
+		},
+		[state.products],
+	);
 
 	const setProductQuantity = useCallback(
 		(id: string, quantity: number) => {
@@ -96,7 +113,8 @@ export function ShoppingCartProvider(props: React.PropsWithChildren<{}>) {
 			value={{
 				state,
 				dispatch,
-				setProducts,
+				addProduct,
+				selectProduct,
 				setProductQuantity,
 				setCoupon,
 			}}

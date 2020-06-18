@@ -3,10 +3,7 @@ import ProductList from "~/components/UI/blocks/ProductList";
 import Pagination from "~/components/UI/atoms/Pagination";
 import useProductList from "./useProductList";
 import BaseTemplate from "~/components/pages/BaseTemplate";
-import {
-	useShoppingCart,
-	ShoppingCartProvider,
-} from "~/contexts/ShoppingCarts";
+import { useShoppingCart } from "~/contexts/ShoppingCarts";
 import _ from "~/lib/_";
 import { Product } from "~/types";
 
@@ -14,7 +11,7 @@ const ProductPage = () => {
 	const { page, products, totalPage, setPage } = useProductList();
 	const {
 		state: { products: carts },
-		setProducts,
+		addProduct,
 	} = useShoppingCart();
 
 	const handleClickShoppingCart = (id: string) => {
@@ -22,7 +19,7 @@ const ProductPage = () => {
 			products,
 		);
 		if (!product) return;
-		setProducts(product);
+		addProduct(product);
 	};
 
 	return (
@@ -37,8 +34,4 @@ const ProductPage = () => {
 	);
 };
 
-export default () => (
-	<ShoppingCartProvider>
-		<ProductPage />
-	</ShoppingCartProvider>
-);
+export default ProductPage;
