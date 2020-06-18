@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import ProductCartTabs from "~/components/UI/blocks/ProductCartTabs";
 import { Flex } from "~/components/UI/layouts/Flex";
 
@@ -11,12 +12,18 @@ const BaseTemplate = (props: BaseTemplateProps) => (
 		<header>
 			<ProductCartTabs />
 		</header>
-		<main>
-			<Flex column alignCenter>
+		<S.Main>
+			<Flex column alignBaseline>
 				{props.children}
 			</Flex>
-		</main>
+		</S.Main>
 	</>
 );
+
+const S = {
+	Main: styled.main`
+		padding: 0 8rem;
+	`,
+};
 
 export default BaseTemplate;

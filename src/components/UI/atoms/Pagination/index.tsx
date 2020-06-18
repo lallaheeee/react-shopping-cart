@@ -90,7 +90,7 @@ Pagination.defaultProps = {
 const S = {
 	Ul: styled.ul`
 		display: flex;
-		list-style: none;
+		align-self: center;
 		cursor: pointer;
 
 		& svg {

@@ -8,10 +8,7 @@ const ProductCartTabs = () => {
 	const { pathname } = useLocation();
 	const history = useHistory();
 
-	const handleChange = (value: string) => {
-		console.log(pathname, value);
-		history.push(`${value}`);
-	};
+	const handleChange = (value: string) => history.push(`${value}`);
 
 	return (
 		<S.Tabs value={pathname} fluid={false} onChange={handleChange}>

@@ -36,6 +36,7 @@ const ProductList = (props: ProductListProps) => {
 
 const S = {
 	Wrapper: styled.ul`
+		align-self: center;
 		& > * {
 			margin-bottom: 1rem;
 		}
