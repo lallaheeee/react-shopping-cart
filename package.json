@@ -32,7 +32,8 @@
 		"test": "react-app-rewired test",
 		"eject": "react-app-rewired eject",
 		"storybook": "start-storybook -p 9009 -s public",
-		"build-storybook": "build-storybook -s public"
+		"build-storybook": "build-storybook -s public",
+		"server": "json-server --watch src/apis/db.json --port 5000"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
@@ -64,6 +65,7 @@
 		"@types/storybook-react-router": "^1.0.1",
 		"@types/styled-components": "^5.1.0",
 		"husky": "^4.2.5",
+		"json-server": "^0.16.1",
 		"lint-staged": "^10.2.10",
 		"prettier": "^2.0.5",
 		"react-docgen-typescript-plugin": "^0.4.1",
