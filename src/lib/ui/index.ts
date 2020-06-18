@@ -1,2 +1,3 @@
-export { Checkbox, Tabs, Badge } from "@class101/ui";
+export { Checkbox, Tabs, Badge, Toaster as Toast } from "@class101/ui";
+
 export { InputNumber } from "antd";

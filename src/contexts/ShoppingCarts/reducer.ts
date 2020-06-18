@@ -1,5 +1,8 @@
 import { Product, Coupon } from "~/types";
 import _ from "~/lib/_";
+import { showToast } from "~/lib/ui/Toast";
+
+const MAX_NUM_CART = 3;
 
 export enum Action {
 	FETCH_COUPONS = "FETCH_PRODUCTS",
@@ -55,6 +58,13 @@ export const ShoppingCartReducer = (
 			)
 				? _.remove(product, state.products)
 				: [...state.products, product];
+
+			if (products.length > MAX_NUM_CART) {
+				showToast({
+					message: "장바구니에는 3개의 물품까지 담을 수 있습니다 ",
+				});
+				return state;
+			}
 
 			return {
 				...state,
