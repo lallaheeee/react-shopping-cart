@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import _ from "lodash/fp";
+import _ from "~/lib/_";
 import ProductCard from "~/components/UI/atoms/ProductCard";
 import { OnlineClass } from "~/types";
 
@@ -12,6 +12,7 @@ interface ProductListProps {
 
 const ProductList = (props: ProductListProps) => {
 	const { products, onClickShoppingCart, carts } = props;
+
 	return (
 		<S.Wrapper>
 			{_.map(
@@ -19,7 +20,10 @@ const ProductList = (props: ProductListProps) => {
 					<li key={product.id}>
 						<ProductCard
 							product={product}
-							isCart={_.includes(product, carts)}
+							isCart={_.includes(
+								product.id,
+								_.map(product => product.id, carts),
+							)}
 							onClickShoppingCart={onClickShoppingCart}
 						/>
 					</li>
