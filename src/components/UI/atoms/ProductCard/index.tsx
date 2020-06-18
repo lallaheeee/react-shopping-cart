@@ -50,6 +50,8 @@ const S = {
 
 		& button {
 			margin-left: auto;
+			padding-left: 1rem;
+
 			height: fit-content;
 		}
 
@@ -59,7 +61,7 @@ const S = {
 	`,
 	ImageWrapper: styled.div`
 		width: 100%;
-		height: 24rem;
+		height: 20rem;
 		overflow: hidden;
 		border-radius: 4px;
 
