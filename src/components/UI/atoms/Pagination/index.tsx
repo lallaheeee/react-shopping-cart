@@ -18,13 +18,16 @@ const getPages = ({
 	numOfPageView = 5,
 }: Omit<PaginationProps, "onChange">) => {
 	totalPage++;
+	if (totalPage <= numOfPageView) numOfPageView = totalPage - 1;
 	const [prev, maxStart] = [
 		page - Math.floor(numOfPageView / 2),
 		totalPage - numOfPageView,
 	];
 
 	const start = prev < 1 ? 1 : Math.min(prev, maxStart);
-	return [start, start + numOfPageView];
+	const end =
+		start + numOfPageView > totalPage ? totalPage : start + numOfPageView;
+	return [start, end];
 };
 
 const Pagination = (props: PaginationProps) => {
