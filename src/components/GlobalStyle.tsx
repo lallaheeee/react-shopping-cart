@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import "antd/dist/antd.css";
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -22,6 +23,9 @@ const GlobalStyles = createGlobalStyle`
     cursor: pointer;
     text-decoration: none;
     color: black;
+  }
+  ul {
+    list-style: none;
   }
 `;
 
