@@ -1,7 +1,7 @@
 import React from "react";
 import { withKnobs } from "@storybook/addon-knobs";
 import ShoppingCartTable from ".";
-import { productItems } from "~/apis/data";
+import db from "~/apis/db.json";
 
 export default {
 	title: "Blocks / ShoppingCartTable ",
@@ -10,7 +10,7 @@ export default {
 };
 
 export const Index = () => {
-	const products = productItems.map(product => ({
+	const products = db.products.map(product => ({
 		...product,
 		isSelected: true,
 		quantity: 1,

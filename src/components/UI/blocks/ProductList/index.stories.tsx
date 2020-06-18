@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { withKnobs } from "@storybook/addon-knobs";
 import _ from "lodash/fp";
 import ProductList from ".";
-import { productItems } from "~/apis/data";
+import db from "~/apis/db.json";
 import { OnlineClass } from "~/types";
 
 export default {
@@ -15,7 +15,7 @@ export const Index = () => {
 	const [carts, setCarts] = useState<OnlineClass[]>([]);
 
 	const handleShoppingCart = (id: string) => {
-		const product = _.find(product => product.id === id, productItems);
+		const product = _.find(product => product.id === id, db.products);
 
 		if (!product) return;
 		const newCarts = _.includes(product, carts)
@@ -27,7 +27,7 @@ export const Index = () => {
 
 	return (
 		<ProductList
-			products={productItems}
+			products={db.products}
 			carts={carts}
 			onClickShoppingCart={handleShoppingCart}
 		/>
