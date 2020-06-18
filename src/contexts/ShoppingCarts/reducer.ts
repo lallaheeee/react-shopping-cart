@@ -20,7 +20,10 @@ export type ShoppingCartAction =
 			type: Action.SET_PRODUCT_QUANTITY;
 			payload: { product: Product; quantity: number };
 	  }
-	| { type: Action.SET_COUPON; coupon: Coupon };
+	| {
+			type: Action.SET_COUPON;
+			payload: { coupon: Coupon; checked: boolean };
+	  };
 
 export interface ShoppingCartState {
 	products: Product[];
@@ -79,10 +82,9 @@ export const ShoppingCartReducer = (
 			return { ...state, products };
 		}
 		case Action.SET_COUPON: {
-			const { coupon: target } = action;
+			const { coupon: target, checked } = action.payload;
 			const coupons = _.map(coupon => {
-				if (coupon.title === target.title)
-					coupon.isSelected = !target.isSelected;
+				if (coupon.title === target.title) coupon.isSelected = checked;
 				return coupon;
 			}, state.coupons);
 			return { ...state, coupons };

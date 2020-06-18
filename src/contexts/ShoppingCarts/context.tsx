@@ -27,7 +27,7 @@ type ShoppingCartContextProps = {
 	addProduct: (target: OnlineClass | Product) => void;
 	selectProduct: (id: string, isSelected: boolean) => void;
 	setProductQuantity: (id: string, quantity: number) => void;
-	setCoupon: (coupon: Coupon) => void;
+	setCoupon: (coupon: Coupon, checked: boolean) => void;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextProps>({
@@ -44,8 +44,6 @@ export function ShoppingCartProvider(props: React.PropsWithChildren<{}>) {
 	const {
 		state: { data: fetchedCoupons },
 	} = useFetch<Coupon[]>(api.getCoupons);
-
-	useEffect(() => console.log(state.products), [state.products]);
 
 	const setCoupons = useCallback(() => {
 		if (!fetchedCoupons) return;
@@ -102,8 +100,8 @@ export function ShoppingCartProvider(props: React.PropsWithChildren<{}>) {
 		[state.products],
 	);
 
-	const setCoupon = useCallback((coupon: Coupon) => {
-		dispatch({ type: Action.SET_COUPON, coupon });
+	const setCoupon = useCallback((coupon: Coupon, checked: boolean) => {
+		dispatch({ type: Action.SET_COUPON, payload: { coupon, checked } });
 	}, []);
 
 	useEffect(setCoupons, [fetchedCoupons]);
