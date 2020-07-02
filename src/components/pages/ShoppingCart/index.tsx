@@ -17,6 +17,16 @@ const calculateCoupon = (coupon: Coupon | undefined, price: number): number => {
 	return 0;
 };
 
+const isAvailbleCoupon = (product: Product) =>
+	product.isSelected && !product.hasOwnProperty("availableCoupon");
+
+const getPrice = (f: (item: any) => boolean, products: any[]) =>
+	_.pipe(
+		_.filter(f),
+		_.map((product: Product) => product.price * product.quantity),
+		_.sum,
+	)(products);
+
 const ShoppingCartPage = () => {
 	const {
 		state: { products, coupons },
@@ -25,22 +35,24 @@ const ShoppingCartPage = () => {
 		setCoupon,
 	} = useShoppingCart();
 
-	const totalProductPrice = _.pipe(
-		_.filter((product: Product) => product.isSelected),
-		_.map((product: Product) => product.price * product.quantity),
-		_.sum,
-	)(products);
+	const totalProductPrice = getPrice(
+		(product: Product) => product.isSelected,
+		products,
+	);
+	const totalAvailableCouponsProductPrice = getPrice(
+		isAvailbleCoupon,
+		products,
+	);
 
-	const tmp = _.pipe(
+	const couponDiscountPrice = _.pipe(
 		_.filter((coupon: Coupon) => coupon.isSelected),
-		_.map((coupon: Coupon) => calculateCoupon(coupon, totalProductPrice)),
+		_.map((coupon: Coupon) =>
+			calculateCoupon(coupon, totalAvailableCouponsProductPrice),
+		),
 		_.sum,
 	)(coupons);
 
-	const isAvailableCoupons = products.some(
-		product =>
-			product.isSelected && !product.hasOwnProperty("availableCoupon"),
-	);
+	const isDisableCoupon = !products.some(isAvailbleCoupon);
 
 	return (
 		<BaseTemplate>
@@ -56,11 +68,11 @@ const ShoppingCartPage = () => {
 			<CouponSection
 				coupons={coupons}
 				onChange={setCoupon}
-				disabled={!isAvailableCoupons}
+				disabled={isDisableCoupon}
 			/>
 			<PaymentAmountSection
 				totalProductPrice={totalProductPrice}
-				couponSalePrice={tmp}
+				couponSalePrice={couponDiscountPrice}
 			/>
 		</BaseTemplate>
 	);
