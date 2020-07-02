@@ -36,6 +36,10 @@ const ProductList = (props: ProductListProps) => {
 
 const S = {
 	Wrapper: styled.ul`
+		display: flex;
+		flex-wrap: wrap;
+
+		width: 100%;
 		align-self: center;
 		& > * {
 			margin-bottom: 1rem;

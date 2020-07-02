@@ -18,9 +18,9 @@ const BaseTemplate = (props: BaseTemplateProps) => {
 				<ProductCartTabs numOfCarts={products.length} />
 			</header>
 			<S.Main>
-				<Flex column alignBaseline>
+				<S.Flex column alignBaseline>
 					{props.children}
-				</Flex>
+				</S.Flex>
 			</S.Main>
 		</>
 	);
@@ -29,6 +29,10 @@ const BaseTemplate = (props: BaseTemplateProps) => {
 const S = {
 	Main: styled.main`
 		padding: 0 8rem;
+	`,
+	Flex: styled(Flex)`
+		margin: 4rem auto 0 auto;
+		width: fit-content;
 	`,
 };
 
