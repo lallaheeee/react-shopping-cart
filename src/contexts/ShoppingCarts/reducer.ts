@@ -79,7 +79,20 @@ export const ShoppingCartReducer = (
 				return product;
 			}, state.products);
 
-			return { ...state, products };
+			const isDisableCoupon = !products.some(
+				(product: Product) =>
+					product.isSelected &&
+					!product.hasOwnProperty("availableCoupon"),
+			);
+
+			const coupons = isDisableCoupon
+				? _.map(
+						coupon => ({ ...coupon, isSelected: false }),
+						state.coupons,
+				  )
+				: state.coupons;
+
+			return { ...state, coupons, products };
 		}
 		case Action.SET_PRODUCT_QUANTITY: {
 			const { product: target, quantity } = action.payload;
