@@ -2,23 +2,29 @@ import React from "react";
 import styled from "styled-components";
 import ProductCartTabs from "~/components/UI/blocks/ProductCartTabs";
 import { Flex } from "~/components/UI/layouts/Flex";
+import { useShoppingCart } from "~/contexts/ShoppingCarts";
 
 interface BaseTemplateProps {
 	children: React.ReactNode;
 }
 
-const BaseTemplate = (props: BaseTemplateProps) => (
-	<>
-		<header>
-			<ProductCartTabs />
-		</header>
-		<S.Main>
-			<Flex column alignBaseline>
-				{props.children}
-			</Flex>
-		</S.Main>
-	</>
-);
+const BaseTemplate = (props: BaseTemplateProps) => {
+	const {
+		state: { products },
+	} = useShoppingCart();
+	return (
+		<>
+			<header>
+				<ProductCartTabs numOfCarts={products.length} />
+			</header>
+			<S.Main>
+				<Flex column alignBaseline>
+					{props.children}
+				</Flex>
+			</S.Main>
+		</>
+	);
+};
 
 const S = {
 	Main: styled.main`

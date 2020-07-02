@@ -1,10 +1,15 @@
 import React from "react";
 
 import { useLocation, useHistory } from "react-router-dom";
-import { Tabs } from "~/lib/ui";
+import { Tabs, Badge } from "~/lib/ui";
 import styled from "styled-components";
 
-const ProductCartTabs = () => {
+interface ProductCartTabsProps {
+	numOfCarts?: number;
+}
+
+const ProductCartTabs = (props: ProductCartTabsProps) => {
+	const { numOfCarts = 0 } = props;
 	const { pathname } = useLocation();
 	const history = useHistory();
 
@@ -13,7 +18,11 @@ const ProductCartTabs = () => {
 	return (
 		<S.Tabs value={pathname} fluid={false} onChange={handleChange}>
 			<Tabs.Item value="/products" title="상품 보기" />
-			<Tabs.Item value="/carts" title="장바구니" />
+			<Tabs.Item
+				value="/carts"
+				caption={<Badge pill={true}>{numOfCarts}</Badge>}
+				title="장바구니"
+			/>
 		</S.Tabs>
 	);
 };
