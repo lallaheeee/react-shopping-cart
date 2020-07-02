@@ -1,8 +1,10 @@
 import { Product, Coupon } from "~/types";
+import { getLocalStorage, setLocalStorage } from "~/utils/storage";
 import _ from "~/lib/_";
 import { showToast } from "~/lib/ui/Toast";
 
 const MAX_NUM_CART = 3;
+const STORAGE_KEY = "cartItem";
 
 export enum Action {
 	FETCH_COUPONS = "FETCH_PRODUCTS",
@@ -39,7 +41,7 @@ export interface ShoppingCartState {
 }
 
 export const initialState: ShoppingCartState = {
-	products: [],
+	products: getLocalStorage(STORAGE_KEY) || [],
 	coupons: [],
 };
 
@@ -47,13 +49,15 @@ export const ShoppingCartReducer = (
 	state: ShoppingCartState,
 	action: ShoppingCartAction,
 ): ShoppingCartState => {
+	let result = state;
 	switch (action.type) {
 		case Action.FETCH_COUPONS: {
 			const { coupons } = action;
-			return {
+			result = {
 				...state,
 				coupons,
 			};
+			break;
 		}
 		case Action.ADD_PRODUCT: {
 			const { product } = action;
@@ -71,10 +75,11 @@ export const ShoppingCartReducer = (
 				return state;
 			}
 
-			return {
+			result = {
 				...state,
 				products,
 			};
+			break;
 		}
 		case Action.SELECT_PRODUCT: {
 			const { product: target, isSelected } = action.payload;
@@ -97,7 +102,8 @@ export const ShoppingCartReducer = (
 				  )
 				: state.coupons;
 
-			return { ...state, coupons, products };
+			result = { ...state, coupons, products };
+			break;
 		}
 		case Action.SELECT_ALL_PRODUCT: {
 			const { isSelected } = action;
@@ -106,7 +112,8 @@ export const ShoppingCartReducer = (
 				state.products,
 			);
 
-			return { ...state, products };
+			result = { ...state, products };
+			break;
 		}
 
 		case Action.SET_PRODUCT_QUANTITY: {
@@ -117,7 +124,8 @@ export const ShoppingCartReducer = (
 				return product;
 			}, state.products);
 
-			return { ...state, products };
+			result = { ...state, products };
+			break;
 		}
 		case Action.SET_COUPON: {
 			const { coupon: target, checked } = action.payload;
@@ -125,10 +133,12 @@ export const ShoppingCartReducer = (
 				if (coupon.title === target.title) coupon.isSelected = checked;
 				return coupon;
 			}, state.coupons);
-			return { ...state, coupons };
+			result = { ...state, coupons };
+			break;
 		}
-
-		default:
-			return state;
 	}
+
+	setLocalStorage(STORAGE_KEY, result.products);
+
+	return result;
 };
