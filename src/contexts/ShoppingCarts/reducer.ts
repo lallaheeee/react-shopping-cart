@@ -1,7 +1,7 @@
 import { Product, Coupon } from "~/types";
 import { getLocalStorage, setLocalStorage } from "~/utils/storage";
+import { showToast, Position, Colors } from "~/lib/ui/Toast";
 import _ from "~/lib/_";
-import { showToast } from "~/lib/ui/Toast";
 
 const MAX_NUM_CART = 3;
 const STORAGE_KEY = "cartItem";
@@ -71,6 +71,8 @@ export const ShoppingCartReducer = (
 			if (products.length > MAX_NUM_CART) {
 				showToast({
 					message: "장바구니에는 3개의 물품까지 담을 수 있습니다 ",
+					position: Position.BOTTOM_RIGHT,
+					backgroundColor: Colors.redError,
 				});
 				return state;
 			}
