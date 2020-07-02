@@ -37,6 +37,11 @@ const ShoppingCartPage = () => {
 		_.sum,
 	)(coupons);
 
+	const isAvailableCoupons = products.some(
+		product =>
+			product.isSelected && !product.hasOwnProperty("availableCoupon"),
+	);
+
 	return (
 		<BaseTemplate>
 			{products.length ? (
@@ -48,7 +53,11 @@ const ShoppingCartPage = () => {
 			) : (
 				<EmptyCart />
 			)}
-			<CouponSection coupons={coupons} onChange={setCoupon} />
+			<CouponSection
+				coupons={coupons}
+				onChange={setCoupon}
+				disabled={!isAvailableCoupons}
+			/>
 			<PaymentAmountSection
 				totalProductPrice={totalProductPrice}
 				couponSalePrice={tmp}

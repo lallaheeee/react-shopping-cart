@@ -4,12 +4,13 @@ import { Checkbox } from "~/lib/ui";
 import { Coupon } from "~/types";
 
 interface CouponSectionProps {
+	disabled: boolean;
 	coupons: Coupon[];
 	onChange: (coupon: Coupon, checked: boolean) => void;
 }
 
 const CouponSection = (props: CouponSectionProps) => {
-	const { coupons, onChange } = props;
+	const { disabled, coupons, onChange } = props;
 	return (
 		<S.Section>
 			<S.Title> 쿠폰 선택하기 </S.Title>
@@ -17,6 +18,7 @@ const CouponSection = (props: CouponSectionProps) => {
 				? coupons.map(coupon => (
 						<Checkbox
 							key={coupon.title}
+							disabled={disabled}
 							checked={coupon.isSelected}
 							onChange={() =>
 								onChange(coupon, !coupon.isSelected)
