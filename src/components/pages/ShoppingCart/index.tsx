@@ -31,6 +31,7 @@ const ShoppingCartPage = () => {
 	const {
 		state: { products, coupons },
 		selectProduct,
+		selectAllProduct,
 		setProductQuantity,
 		setCoupon,
 	} = useShoppingCart();
@@ -59,6 +60,7 @@ const ShoppingCartPage = () => {
 			{products.length ? (
 				<ShoppingCartTable
 					products={products}
+					onChangeHeaderCheckbox={selectAllProduct}
 					onChangeCheckbox={selectProduct}
 					onChangeInputNumber={setProductQuantity}
 				/>

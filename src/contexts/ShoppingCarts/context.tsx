@@ -26,6 +26,7 @@ type ShoppingCartContextProps = {
 	dispatch: React.Dispatch<ShoppingCartAction>;
 	addProduct: (target: OnlineClass | Product) => void;
 	selectProduct: (id: string, isSelected: boolean) => void;
+	selectAllProduct: (isSelected: boolean) => void;
 	setProductQuantity: (id: string, quantity: number) => void;
 	setCoupon: (coupon: Coupon, checked: boolean) => void;
 };
@@ -35,6 +36,7 @@ const ShoppingCartContext = createContext<ShoppingCartContextProps>({
 	dispatch: () => initialState,
 	addProduct: () => {},
 	selectProduct: () => {},
+	selectAllProduct: () => {},
 	setProductQuantity: () => {},
 	setCoupon: () => {},
 });
@@ -85,6 +87,12 @@ export function ShoppingCartProvider(props: React.PropsWithChildren<{}>) {
 		[state.products],
 	);
 
+	const selectAllProduct = useCallback(
+		(isSelected: boolean) =>
+			dispatch({ type: Action.SELECT_ALL_PRODUCT, isSelected }),
+		[],
+	);
+
 	const setProductQuantity = useCallback(
 		(id: string, quantity: number) => {
 			const product = _.find((product: Product) => product.id === id)(
@@ -113,6 +121,7 @@ export function ShoppingCartProvider(props: React.PropsWithChildren<{}>) {
 				dispatch,
 				addProduct,
 				selectProduct,
+				selectAllProduct,
 				setProductQuantity,
 				setCoupon,
 			}}

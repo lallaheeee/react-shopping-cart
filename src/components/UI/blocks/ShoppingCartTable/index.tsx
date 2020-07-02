@@ -1,25 +1,36 @@
 import React from "react";
 import styled from "styled-components";
 import ShoppingCartItem from "~/components/UI/atoms/ShoppingCartItem";
+import { Checkbox } from "~/lib/ui";
 import { Flex } from "~/components/UI/layouts/Flex";
 import { Product } from "~/types";
 
 interface ShoppingCartTableProps {
 	products: Product[];
+	onChangeHeaderCheckbox: (value: boolean) => void;
 	onChangeCheckbox: (id: string, value: boolean) => void;
 	onChangeInputNumber: (id: string, value: number) => void;
 }
 
-const headers = ["선택", "상품정보", "수량", "상품금액", "쿠폰 적용 여부"];
+const headers = ["상품정보", "수량", "상품금액", "쿠폰 적용 여부"];
 
 const ShoppingCartTable = (props: ShoppingCartTableProps) => {
-	const { products, onChangeCheckbox, onChangeInputNumber } = props;
+	const {
+		products,
+		onChangeHeaderCheckbox,
+		onChangeCheckbox,
+		onChangeInputNumber,
+	} = props;
 
 	return (
 		<Flex column alignStart>
 			<S.Title>상품 목록</S.Title>
 			<S.Ul>
 				<S.Li>
+					<S.Checkbox
+						checked={products.every(product => product.isSelected)}
+						onChange={e => onChangeHeaderCheckbox(e.target.checked)}
+					/>
 					{headers.map(title => (
 						<span key={title}>{title}</span>
 					))}
@@ -60,6 +71,9 @@ const S = {
 		font-weight: bold;
 
 		border-bottom: 2px solid ${props => props.theme.grey};
+	`,
+	Checkbox: styled(Checkbox)`
+		margin: auto auto;
 	`,
 };
 

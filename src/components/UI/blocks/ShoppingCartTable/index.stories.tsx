@@ -19,6 +19,7 @@ export const Index = () => {
 	return (
 		<ShoppingCartTable
 			products={products}
+			onChangeHeaderCheckbox={() => {}}
 			onChangeCheckbox={() => {}}
 			onChangeInputNumber={() => {}}
 		/>

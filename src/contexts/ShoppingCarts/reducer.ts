@@ -8,6 +8,7 @@ export enum Action {
 	FETCH_COUPONS = "FETCH_PRODUCTS",
 	ADD_PRODUCT = "ADD_PRODUCT",
 	SELECT_PRODUCT = "SELECT_PRODUCT",
+	SELECT_ALL_PRODUCT = "SELECT_ALL_PRODUCT",
 	SET_PRODUCT_QUANTITY = "SET_PRODUCT_QUANTITY",
 	SET_COUPON = "SET_COUPON",
 }
@@ -18,6 +19,10 @@ export type ShoppingCartAction =
 	| {
 			type: Action.SELECT_PRODUCT;
 			payload: { product: Product; isSelected: boolean };
+	  }
+	| {
+			type: Action.SELECT_ALL_PRODUCT;
+			isSelected: boolean;
 	  }
 	| {
 			type: Action.SET_PRODUCT_QUANTITY;
@@ -94,6 +99,16 @@ export const ShoppingCartReducer = (
 
 			return { ...state, coupons, products };
 		}
+		case Action.SELECT_ALL_PRODUCT: {
+			const { isSelected } = action;
+			const products = _.map(
+				product => ({ ...product, isSelected }),
+				state.products,
+			);
+
+			return { ...state, products };
+		}
+
 		case Action.SET_PRODUCT_QUANTITY: {
 			const { product: target, quantity } = action.payload;
 			const products = _.map(product => {
