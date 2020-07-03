@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to class101 👋</h1>
+<h1 align="center">Welcome to shopping cart 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
 </p>
@@ -50,6 +50,8 @@ src
 └── types							  # domain과 관련된 type
     └── index.ts
 ```
+
+## 📕 [storybook](https://shopping-cart-react-ts.netlify.app/?path=/story/atoms-pagination--index)
 
 ## Install
 
